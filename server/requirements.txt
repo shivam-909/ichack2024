@@ -1,0 +1,2 @@
+openbb[all]
+uvicorn

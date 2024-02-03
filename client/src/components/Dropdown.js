@@ -1,27 +1,45 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import React from 'react'
+import {
+  Box,
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import React from "react";
+import filterPropertyOptions from "./filterPropertyOptions";
 
-const Dropdown = () => {
+const Dropdown = ({
+  filterPropertyKey,
+  filterPropertyName,
+  handleSetFilterProperty,
+  filterProperties,
+}) => {
+  const options = filterPropertyOptions[filterPropertyKey];
+
   return (
-    <FormControl sx={{ m: 1, minWidth: 80 }}>
-    <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
-    <Select
-      labelId="demo-simple-select-autowidth-label"
-      id="demo-simple-select-autowidth"
-      value={10}
-      onChange={() => {}}
-      autoWidth
-      label="Age"
-    >
-      <MenuItem value="">
-        <em>None</em>
-      </MenuItem>
-      <MenuItem value={10}>Twenty</MenuItem>
-      <MenuItem value={21}>Twenty one</MenuItem>
-      <MenuItem value={22}>Twenty one and a half</MenuItem>
-    </Select>
-  </FormControl>
-  )
-}
+    <Box>
+      <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+        <InputLabel id="demo-simple-select-autowidth-label">
+          {filterPropertyName}
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-autowidth-label"
+          id="demo-simple-select-autowidth"
+          value={10}
+          onChange={(e) => {
+            handleSetFilterProperty(filterPropertyKey, e.target.value);
+          }}
+          autoWidth
+          label={filterPropertyName}
+        >
+          {options.map((option) => (
+            <MenuItem value={option}>{option}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};
 
-export default Dropdown
+export default Dropdown;

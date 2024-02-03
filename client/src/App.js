@@ -3,21 +3,36 @@ import Button from "@mui/material/Button";
 import { BarChart } from "@mui/x-charts/BarChart";
 import Dropdown from "./components/Dropdown";
 import Chart from "./components/Chart";
+import EntryAdder from "./components/EntryAdder";
+import Entries from "./components/Entries";
+import { useState } from "react";
 
 function App() {
+  const [filterProperties, setFilterProperties] = useState({
+    region: "NA",
+    sector: "Technology",
+  });
+
+  const handleSetFilterProperty = (filterPropertyKey, newValue) => {
+    setFilterProperties({
+      ...filterProperties,
+      [filterPropertyKey]: newValue,
+    });
+  };
+
   return (
     <div>
       <CssBaseline />
       <Container maxWidth="md">
-        <Stack direction="row" spacing={3} mt={3}>
-          <Dropdown />
-          <Dropdown />
-        </Stack>
-
-        <Grid container spacing={2}>
+        <EntryAdder
+          handleSetFilterProperty={handleSetFilterProperty}
+          filterProperties={filterProperties}
+        />
+        <Entries />
+        <Grid container spacing={5} mt={1}>
           <Grid xs={6}>
             <Stack>
-              <Chart />
+              <Chart name={"test"} />
               <Chart />
             </Stack>
           </Grid>

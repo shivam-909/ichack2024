@@ -1,24 +1,26 @@
-import { BarChart } from "@mui/x-charts/BarChart";
+import { Box, Card, Typography } from "@mui/material";
+import { LineChart } from "@mui/x-charts/LineChart";
 import React from "react";
 
-const Chart = () => {
+const Chart = ({ name }) => {
   return (
-    <BarChart
-      xAxis={[
-        {
-          id: "barCategories",
-          data: ["bar A", "bar B", "bar C"],
-          scaleType: "band",
-        },
-      ]}
-      series={[
-        {
-          data: [2, 5, 3],
-        },
-      ]}
-      width={500}
-      height={300}
-    />
+    <Box>
+      <LineChart
+        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+        series={[
+          {
+            label: "China",
+            data: [2, 5.5, 2, 8.5, 1.5, 5],
+          },
+          {
+            label: "Japan",
+            data: [4, 5.5, 2, 8.5, 1.5, 5],
+          },
+        ]}
+        width={500}
+        height={300}
+      />
+    </Box>
   );
 };
 

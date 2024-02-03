@@ -1,5 +1,7 @@
 import express from 'express';
 import carbonRoutes from './routes/carbonRoutes'
+import predictionRoutes from './routes/predictionRoutes'
+import sentimentRoutes from './routes/sentimentRoutes'
 
 const app = express();
 const port = 3000;
@@ -8,6 +10,8 @@ const port = 3000;
 //   res.send('Hello, TypeScript with Express!');
 // });
 
+app.use('/prection', predictionRoutes)
+app.use('/sentiment', sentimentRoutes)
 app.use('/carbonData', carbonRoutes)
 
 

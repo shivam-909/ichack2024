@@ -89,7 +89,7 @@ function App() {
           fetchAllData={fetchAllData}
         />
         <Entries />
-        <Grid container spacing={5} mt={1}>
+        <Grid container spacing={20} mt={1}>
           <Grid xs={6}>
             <Stack>
               <Chart data={historyPriceData} name={"Historical Prices"} chartType="price" />

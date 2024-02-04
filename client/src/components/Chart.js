@@ -19,7 +19,11 @@ const Chart = ({ name, data }) => {
     }
   }
 
-  let dates = Array.from({ length: 365 }, (_, i) => {
+  // get the length of data
+
+  let length = data.length;
+
+  let dates = Array.from({ length: length }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
     return date.toISOString().split("T")[0];
@@ -27,8 +31,7 @@ const Chart = ({ name, data }) => {
 
   let dateLabels = dates.map((_ , index) => index);
 
-  data = data.slice(0, 365);
-  data = data.filter((_, index) => index % 10 === 0);
+  data = data.filter((v, index) => (index % 10 === 0) && (v < 100000));
   dateLabels = dateLabels.filter((_, index) => index % 10 === 0);
 
   return (

@@ -3,18 +3,31 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import React from "react";
 
 const Chart = ({ name }) => {
+  const dates = Array.from({ length: 365 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    return date.toISOString().split("T")[0];
+  });
+
+  // Convert dates to a more simple numeric or categorical format if necessary
+  const dateLabels = dates.map((_ , index) => index);
+
+  const dummyData = Array.from({ length: 365 }, () => Math.random() * 10);
+
+  const filteredDates = dateLabels.filter((_, index) => index % 10 === 0);
+  
+  // Filter to get every 10th data point
+  const filteredDummyData = dummyData.filter((_, index) => index % 10 === 0);
+
   return (
     <Box>
       <LineChart
-        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+      
+        xAxis={[{ data: filteredDates }]} 
         series={[
           {
-            label: "China",
-            data: [2, 5.5, 2, 8.5, 1.5, 5],
-          },
-          {
-            label: "Japan",
-            data: [4, 5.5, 2, 8.5, 1.5, 5],
+            label: name,
+            data: filteredDummyData,
           },
         ]}
         width={500}

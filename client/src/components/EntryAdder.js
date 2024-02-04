@@ -2,7 +2,11 @@ import { Box, Button, Card, Stack } from "@mui/material";
 import React from "react";
 import Dropdown from "./Dropdown";
 
-const EntryAdder = ({ filterProperties, handleSetFilterProperty }) => {
+const EntryAdder = ({
+  filterProperties,
+  handleSetFilterProperty,
+  fetchAllData,
+}) => {
   return (
     <Box mt={2}>
       <Card
@@ -32,7 +36,9 @@ const EntryAdder = ({ filterProperties, handleSetFilterProperty }) => {
           </Stack>
 
           <Box pr={1}>
-            <Button variant="outlined">Add Entry</Button>
+            <Button variant="outlined" onClick={fetchAllData}>
+              Add Entry
+            </Button>
           </Box>
         </Stack>
       </Card>

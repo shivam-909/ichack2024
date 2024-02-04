@@ -1,4 +1,4 @@
-import { Container, CssBaseline, Grid, Stack } from "@mui/material";
+import { Container, CssBaseline, Drawer, Grid, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import { BarChart } from "@mui/x-charts/BarChart";
 import Dropdown from "./components/Dropdown";
@@ -13,6 +13,29 @@ function App() {
     sector: "Technology",
   });
 
+  const [showAnalysis, setShowAnalysis] = useState(false);
+
+  const [historyData, setHistoryData] = useState([]);
+
+  const [predictionData, setPredictionData] = useState([]);
+
+  const [analysisData, setAnalysisData] = useState([]);
+
+  const [loading, setLoading] = useState([]);
+
+  const fetchAllData = () => {
+    setLoading(["history", "prediction", "analysis"]);
+    fetch("").then(() => {
+      setLoading(loading.filter((x) => x !== "history"));
+    });
+    fetch("").then(() => {
+      setLoading(loading.filter((x) => x !== "prediction"));
+    });
+    fetch("").then(() => {
+      setLoading(loading.filter((x) => x !== "analysis"));
+    });
+  };
+
   const handleSetFilterProperty = (filterPropertyKey, newValue) => {
     setFilterProperties({
       ...filterProperties,
@@ -24,21 +47,45 @@ function App() {
     <div>
       <CssBaseline />
       <Container maxWidth="md">
+        <Drawer
+          open={showAnalysis}
+          onClose={() => {}}
+          PaperProps={{
+            sx: { width: "50%" },
+          }}
+          ModalProps={{
+            onBackdropClick: () => {
+              setShowAnalysis(false);
+            },
+          }}
+        >
+          <div>Test</div>
+        </Drawer>
         <EntryAdder
           handleSetFilterProperty={handleSetFilterProperty}
           filterProperties={filterProperties}
+          fetchAllData={fetchAllData}
         />
         <Entries />
         <Grid container spacing={5} mt={1}>
           <Grid xs={6}>
             <Stack>
-              <Chart name={"test"} />
-              <Chart />
+              <Chart chartType="price" />
+              <Chart chartType="allocation" />
+              <Chart chartType="emissions" />
             </Stack>
           </Grid>
           <Grid xs={6}>
             <Stack>
-              <Chart />
+              <Chart chartType="price" />
+              <Chart chartType="emissions" />
+              <Button
+                onClick={() => {
+                  setShowAnalysis(true);
+                }}
+              >
+                View Analysis
+              </Button>
             </Stack>
           </Grid>
         </Grid>

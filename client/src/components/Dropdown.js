@@ -16,6 +16,7 @@ const Dropdown = ({
   filterProperties,
 }) => {
   const options = filterPropertyOptions[filterPropertyKey];
+  const selectedFilter = filterProperties[filterPropertyKey];
 
   return (
     <Box>
@@ -26,7 +27,7 @@ const Dropdown = ({
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"
-          value={10}
+          value={selectedFilter}
           onChange={(e) => {
             handleSetFilterProperty(filterPropertyKey, e.target.value);
           }}

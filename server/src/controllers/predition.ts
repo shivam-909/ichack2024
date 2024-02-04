@@ -16,16 +16,7 @@ async function readJsonFile(filePath: string): Promise<any> {
       throw error; // Rethrow the error for the caller to handle
     }
 }
-  
 
-export const predictionAnalysis = async (req: Request, res: Response) => {
-    // const jsonFilePath = path.join(process.cwd(), 'data_source', 'prediction.json');
-
-  const filePath = './src/data/prediction.json'; // Specify the path to your JSON file
-  readJsonFile(filePath)
-    .then(data => res.send(data))
-    .catch(error => console.error(error));
-}
 
 function parseCsvFile(filePath: string): Promise<any[]> {
     return new Promise((resolve, reject) => {
@@ -46,9 +37,22 @@ function parseCsvFile(filePath: string): Promise<any[]> {
     });
   }
 
-export const carbonAllocation = async (req: Request, res: Response) => {
-    const csvFilePath = './src/data/carbon_allowance.csv';
-    parseCsvFile(csvFilePath)
-        .then(data => res.send(data))
-        .catch(error => console.error(error))
-}
+  export const predictionAnalysis = async (req: Request, res: Response) => {
+    try {
+      const jsonFilePath = './src/data/prediction.json'; // Specify the path to your JSON file
+      const csvFilePath = './src/data/carbon_allowance.csv'; // Specify the path to your CSV file
+  
+      // Await the asynchronous functions to ensure data is fetched before proceeding
+      const priceData = await readJsonFile(jsonFilePath);
+      const allocationData = await parseCsvFile(csvFilePath);
+  
+      // Sending the response with priceChart and allocationChart
+      res.send({
+        priceChart: priceData,
+        allocationChart: allocationData
+      });
+  
+    } catch (error: any) { // Catching and handling any errors
+      res.status(500).json({ message: error.message });
+    }
+  };

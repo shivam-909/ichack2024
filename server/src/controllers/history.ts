@@ -9,7 +9,11 @@ export const priceRoute = async (req: Request, res: Response) => {
     try
     {
         const apiResponse = await axios.get(apiUrl);
-        res.send(apiResponse);
+        res.send({
+            historyPrice: apiResponse,
+            historyAllocations: getAllocations(),
+            historyEmissions: getEmissions()
+        });
     }
     catch(error: any)
     {
@@ -18,10 +22,29 @@ export const priceRoute = async (req: Request, res: Response) => {
     
 }
 
-export const allocationsRoute = async (req: Request, res: Response) => {
-    res.send("Hello, Typescript with Express");
+const getAllocations = () => {
+    const allocations = {
+        "Technology": 24.24,
+        "Financial Services": 14.2,
+        "Healthcare": 13.1,
+        "Consumer Cyclical": 12.01,
+        "Industrials": 8.86,
+        "Consumer Defensive": 6.32,
+        "Communication Services": 11.14,
+        "Other": 10.13
+    }
+    return allocations;
 }
 
-export const actualEmissionsRoute = async (req: Request, res: Response) => {
-    res.send("Hello, Typescript with Express");
+const getEmissions = async () => {
+    let apiUrl = "https://api.v2.emissions-api.org/api/v2/carbonmonoxide/average.json?country=DE&begin=2019-02-01&end=2019-03-01"
+    try
+    {
+        const apiResponse = await axios.get(apiUrl);
+        return apiResponse;
+    }
+    catch(error: any)
+    {
+        return error.message
+    }
 }

@@ -6,6 +6,7 @@ import Chart from "./components/Chart";
 import EntryAdder from "./components/EntryAdder";
 import Entries from "./components/Entries";
 import { useState } from "react";
+import DrawerContent from "./components/DrawerContent";
 
 function App() {
   const [filterProperties, setFilterProperties] = useState({
@@ -15,11 +16,11 @@ function App() {
 
   const [showAnalysis, setShowAnalysis] = useState(false);
 
-  const [historyData, setHistoryData] = useState([]);
+  const [historyData, setHistoryData] = useState({});
 
-  const [predictionData, setPredictionData] = useState([]);
+  const [predictionData, setPredictionData] = useState({});
 
-  const [analysisData, setAnalysisData] = useState([]);
+  const [analysisData, setAnalysisData] = useState({});
 
   const [loading, setLoading] = useState([]);
 
@@ -54,7 +55,7 @@ function App() {
           open={showAnalysis}
           onClose={() => {}}
           PaperProps={{
-            sx: { width: "50%" },
+            sx: { width: "35%" },
           }}
           ModalProps={{
             onBackdropClick: () => {
@@ -62,7 +63,7 @@ function App() {
             },
           }}
         >
-          <div>Test</div>
+          <DrawerContent />
         </Drawer>
         <EntryAdder
           handleSetFilterProperty={handleSetFilterProperty}

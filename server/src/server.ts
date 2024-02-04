@@ -10,6 +10,11 @@ const port = 3000;
 //   res.send('Hello, TypeScript with Express!');
 // });
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 app.use('/prediction', predictionRoutes)
 app.use('/sentiment', sentimentRoutes)
 app.use('/history', historyRoutes)

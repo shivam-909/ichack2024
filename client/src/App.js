@@ -25,19 +25,17 @@ function App() {
   const [loading, setLoading] = useState([]);
 
   const fetchAllData = () => {
+    console.log("FETCHING ALL DATA");
     setLoading(["history", "prediction", "analysis"]);
-    fetch("http://localhost:3000/history").then((data) => {
-      setHistoryData(data);
-      setLoading(loading.filter((x) => x !== "history"));
-    });
-    fetch("http://localhost:3000/prediction").then((data) => {
-      setPredictionData(data);
-      setLoading(loading.filter((x) => x !== "prediction"));
-    });
-    fetch("http://localhost:3000/analysis").then((data) => {
-      setAnalysisData(data);
-      setLoading(loading.filter((x) => x !== "analysis"));
-    });
+    fetch("http://localhost:3000/prediction")
+      .then((response) => response.json())
+      .then((data) => {
+        setpredictionPriceData(data["priceChart"]["predictions"]);
+        setPredictionAllocationData(data["allocationChart"]);
+        setLoading((prev) => prev.filter((item) => item !== "prediction"));
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   const handleSetFilterProperty = (filterPropertyKey, newValue) => {
@@ -46,6 +44,10 @@ function App() {
       [filterPropertyKey]: newValue,
     });
   };
+  useEffect(() => {
+    fetchAllData();
+  }, []);
+
 
   return (
     <div>
@@ -74,15 +76,15 @@ function App() {
         <Grid container spacing={5} mt={1}>
           <Grid xs={6}>
             <Stack>
-              <Chart name={"Historical Prices"} chartType="price" />
-              <Chart name={"Historical Allocations"} chartType="allocation" />
+              <Chart data={historyData["priceChart"]} name={"Historical Prices"} chartType="price" />
+              <Chart data={historyData["allocationChart"]} name={"Historical Allocations"} chartType="allocation" />
               <Chart name={"Historical Emissions"} chartType="emissions" />
             </Stack>
           </Grid>
           <Grid xs={6}>
             <Stack>
-              <Chart chartType="price" />
-              <Chart chartType="emissions" />
+              <Chart name={"Predicted Price"} data={predictionPriceData} chartType="price" />
+              <Chart name={"Predicted Allocations"} data={predictionAllocationData} chartType="allocations" />
               <Button
                 onClick={() => {
                   setShowAnalysis(true);

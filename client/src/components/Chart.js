@@ -2,32 +2,39 @@ import { Box, Card, Typography } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import React from "react";
 
-const Chart = ({ name }) => {
-  const dates = Array.from({ length: 365 }, (_, i) => {
+const Chart = ({ name, data }) => {
+  console.log("DATA", data)
+
+  if (data === undefined) {
+    return <div>Loading...</div>;
+  }
+
+  if (data[0] && typeof data[0] === "object") {
+    data = data.map((item) => item["Credits Issued"]);
+  }
+
+  let dates = Array.from({ length: 365 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
     return date.toISOString().split("T")[0];
   });
 
-  // Convert dates to a more simple numeric or categorical format if necessary
-  const dateLabels = dates.map((_ , index) => index);
 
-  const dummyData = Array.from({ length: 365 }, () => Math.random() * 10);
+  let dateLabels = dates.map((_ , index) => index);
 
-  const filteredDates = dateLabels.filter((_, index) => index % 10 === 0);
-  
-  // Filter to get every 10th data point
-  const filteredDummyData = dummyData.filter((_, index) => index % 10 === 0);
+  data = data.slice(0, 365);
+  data = data.filter((_, index) => index % 10 === 0);
+  dateLabels = dateLabels.filter((_, index) => index % 10 === 0);
 
   return (
     <Box>
       <LineChart
       
-        xAxis={[{ data: filteredDates }]} 
+        xAxis={[{ data: dateLabels }]} 
         series={[
           {
             label: name,
-            data: filteredDummyData,
+            data: data,
           },
         ]}
         width={500}

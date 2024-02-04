@@ -3,6 +3,6 @@ import { priceRoute } from "../controllers/history";
 
 const router = express.Router();
 
-router.get('/price', priceRoute)
+router.get('/', priceRoute)
 
 export default router;

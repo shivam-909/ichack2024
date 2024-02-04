@@ -1,4 +1,5 @@
-export const regionMapping: Record<string, string> = {
-    "EU": "KEUA",
-    "US": "KCCA"
-  };
+export const regionMapping: Map<string, string> =
+  new Map<string, string>([
+    ["EU", "KEUA"],
+    ["US", "KCCA"]
+]);

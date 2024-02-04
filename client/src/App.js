@@ -7,6 +7,7 @@ import EntryAdder from "./components/EntryAdder";
 import Entries from "./components/Entries";
 import { useState } from "react";
 import DrawerContent from "./components/DrawerContent";
+import { useEffect } from "react";
 
 function App() {
   const [filterProperties, setFilterProperties] = useState({
@@ -16,23 +17,38 @@ function App() {
 
   const [showAnalysis, setShowAnalysis] = useState(false);
 
-  const [historyData, setHistoryData] = useState({});
+  const [historyPriceData, sethistoryPriceData] = useState();
 
-  const [predictionData, setPredictionData] = useState({});
+  const [historyAllocationData, sethistoryAllocationData] = useState();
+
+  const [predictionPriceData, setpredictionPriceData] = useState();
+
+  const [predictionAllocationData, setpredictionAllocationData] = useState();
 
   const [analysisData, setAnalysisData] = useState({});
 
   const [loading, setLoading] = useState([]);
 
   const fetchAllData = () => {
-    console.log("FETCHING ALL DATA");
     setLoading(["history", "prediction", "analysis"]);
     fetch("http://localhost:3000/prediction")
       .then((response) => response.json())
       .then((data) => {
+        console.log("RESPONSE", data);
         setpredictionPriceData(data["priceChart"]["predictions"]);
-        setPredictionAllocationData(data["allocationChart"]);
+        setpredictionAllocationData(data["allocationChart"]);
         setLoading((prev) => prev.filter((item) => item !== "prediction"));
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+
+    fetch("http://localhost:3000/history")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("HISTORY ALLOCATIONS", data["historyAllocations"]);
+        sethistoryPriceData(data["historyPrice"]);
+        sethistoryAllocationData(data["historyEmissions"]);
+        setLoading((prev) => prev.filter((item) => item !== "history"));
       }).catch((error) => {
         console.error('Error:', error);
       });
@@ -76,8 +92,8 @@ function App() {
         <Grid container spacing={5} mt={1}>
           <Grid xs={6}>
             <Stack>
-              <Chart data={historyData["priceChart"]} name={"Historical Prices"} chartType="price" />
-              <Chart data={historyData["allocationChart"]} name={"Historical Allocations"} chartType="allocation" />
+              <Chart data={historyPriceData} name={"Historical Prices"} chartType="price" />
+              <Chart data={historyAllocationData} name={"Historical Allocations"} chartType="allocation" />
               <Chart name={"Historical Emissions"} chartType="emissions" />
             </Stack>
           </Grid>

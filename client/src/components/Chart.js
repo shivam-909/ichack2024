@@ -3,14 +3,20 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import React from "react";
 
 const Chart = ({ name, data }) => {
-  console.log("DATA", data)
-
+  console.log("DATA", data, typeof data)
   if (data === undefined) {
     return <div>Loading...</div>;
   }
 
   if (data[0] && typeof data[0] === "object") {
-    data = data.map((item) => item["Credits Issued"]);
+    console.log(data[0])
+    if (data[0]["Credits Issued"]) {
+      data = data.map((item) => item["Credits Issued"]);
+    } else if (data[0]["Close"]) {
+      data = data.map((item) => item["Close"]);
+    } else if (data[0]["average"]) {
+      data = data.map((item) => item["average"]);
+    }
   }
 
   let dates = Array.from({ length: 365 }, (_, i) => {
@@ -18,7 +24,6 @@ const Chart = ({ name, data }) => {
     date.setDate(date.getDate() + i);
     return date.toISOString().split("T")[0];
   });
-
 
   let dateLabels = dates.map((_ , index) => index);
 

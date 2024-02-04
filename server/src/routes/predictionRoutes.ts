@@ -1,9 +1,10 @@
 import express from "express";
-import { predictionAnalysis } from "../controllers/predition";
+import { carbonAllocation, predictionAnalysis } from "../controllers/predition";
 
 
 const router = express.Router();
 
-router.get('/', predictionAnalysis)
+router.get('/prices', predictionAnalysis)
+router.get('/allocation', carbonAllocation)
 
 export default router;

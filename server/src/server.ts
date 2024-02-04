@@ -11,7 +11,7 @@ const port = 3000;
 //   res.send('Hello, TypeScript with Express!');
 // });
 
-app.use('/prection', predictionRoutes)
+app.use('/prediction', predictionRoutes)
 app.use('/sentiment', sentimentRoutes)
 app.use('/carbonData', carbonRoutes)
 app.use('/history', historyRoutes)
